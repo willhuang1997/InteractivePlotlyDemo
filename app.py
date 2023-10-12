@@ -21,6 +21,35 @@ import plotly.graph_objects as go
 
 import streamlit as st
 
+import requests
+import base64
+
+# Function to download file and convert it to a downloadable format
+def get_binary_file_downloader_html(bin_file, file_label='File'):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    bin_str = base64.b64encode(data).decode()
+    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{bin_file}">Download {file_label}</a>'
+    return href
+
+# URL of the file to be downloaded
+file_url = "https://github.com/willhuang1997/InteractivePlotlyDemo/raw/main/streamlit-1.27.2-py2.py3-none-any.whl"
+
+# Create Streamlit layout
+st.title("Streamlit Download Button")
+st.write("Click the link below to download the file:")
+
+# Fetching the file from the URL
+response = requests.get(file_url)
+filename = file_url.split("/")[-1]
+
+# Saving the file fetched from the URL
+with open(filename, "wb") as file:
+    file.write(response.content)
+
+# Creating the download link
+st.markdown(get_binary_file_downloader_html(filename, 'Click here to download'), unsafe_allow_html=True)
+
 # BUBBLE CHART
 df_bubble = px.data.gapminder()
 fig_bubble = px.scatter(
