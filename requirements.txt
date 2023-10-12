@@ -1,0 +1,10 @@
+./streamlit-1.27.2-py2.py3-none-any.whl
+plotly
+numpy
+pandas
+plotly-express
+statsmodels
+matplotlib
+graphviz
+pydeck
+bokeh
