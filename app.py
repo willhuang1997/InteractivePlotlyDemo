@@ -21,9 +21,6 @@ import plotly.graph_objects as go
 
 import streamlit as st
 
-import streamlit as st
-import plotly.express as px
-
 # BUBBLE CHART
 df_bubble = px.data.gapminder()
 fig_bubble = px.scatter(
