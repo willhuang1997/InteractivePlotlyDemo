@@ -36,8 +36,8 @@ def get_binary_file_downloader_html(bin_file, file_label='File'):
 file_url = "https://github.com/willhuang1997/InteractivePlotlyDemo/raw/main/streamlit-1.27.2-py2.py3-none-any.whl"
 
 # Create Streamlit layout
-st.title("Streamlit Download Button")
-st.write("Click the link below to download the file:")
+st.title("Interactive Streamlit Wheel File")
+st.write("Click the link below to download the wheel file:")
 
 # Fetching the file from the URL
 response = requests.get(file_url)
