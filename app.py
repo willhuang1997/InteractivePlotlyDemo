@@ -428,7 +428,7 @@ np.random.seed(0)  # for reproducibility
 dates_linechart = [datetime(2013, 1, 1) + timedelta(days=i) for i in range(1000)]
 data_linechart = np.cumsum(np.random.randn(1000))  # Generating random walk data
 
-fig_linechart = go.Figure(data=[go.Scatter(x=dates_linechart, y=data_linechart)])
+fig_linechart = go.Figure(data=[go.Scatter(x=dates_linechart, y=data_linechart, mode='lines+markers')])
 
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Line Chart")
