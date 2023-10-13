@@ -63,6 +63,8 @@ fig_bubble = px.scatter(
     size_max=60,
 )
 
+st.header("Tip when selecting or zooming / panning: Double click to reset")
+
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Bubble chart")
 with st.expander("Here is the code"):
