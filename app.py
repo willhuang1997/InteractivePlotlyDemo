@@ -486,3 +486,54 @@ return_value = st.plotly_chart_widget(
 
 # Optionally display return values
 st.dataframe(return_value)
+
+wide_df = px.data.medals_wide()
+
+fig = px.bar(wide_df, x="nation", y=["gold", "silver", "bronze"], title="Wide-Form Input")
+
+st.header("Event Selectors for a Stacked Bar Chart")
+with st.expander("Here is the code"):
+    st.code("""
+import streamlit as st
+import plotly.express as px
+wide_df = px.data.medals_wide()
+
+fig = px.bar(wide_df, x="nation", y=["gold", "silver", "bronze"], title="Wide-Form Input")
+
+on_click = st.checkbox("On Click", key="oc_StackedBar")
+on_select = st.checkbox("On Select", key="os_StackedBar")
+on_hover = st.checkbox("On Hover", key="oh_StackedBar")
+on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_StackedBar")
+
+return_value = st.plotly_chart_widget(
+    fig,
+    theme="streamlit",
+    # Event Selector enabling is here
+    on_click=on_click,
+    on_select=on_select,
+    on_hover=on_hover,
+    on_relayout=on_relayout,
+    # END Event Selector enabling is here
+    key="StackedBar_chart",
+)
+
+st.dataframe(return_value)
+    """)
+on_click = st.checkbox("On Click", key="oc_StackedBar")
+on_select = st.checkbox("On Select", key="os_StackedBar")
+on_hover = st.checkbox("On Hover", key="oh_StackedBar")
+on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_StackedBar")
+
+return_value = st.plotly_chart_widget(
+    fig,
+    theme="streamlit",
+    # Event Selector enabling is here
+    on_click=on_click,
+    on_select=on_select,
+    on_hover=on_hover,
+    on_relayout=on_relayout,
+    # END Event Selector enabling is here
+    key="StackedBar_chart",
+)
+
+st.dataframe(return_value)
