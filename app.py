@@ -365,8 +365,9 @@ st.dataframe(return_value)
 
 # LINE CHART
 df = px.data.gapminder().query("continent=='Oceania'")
-fig_linechart = px.line(df, x="year", y="lifeExp", color='country')
-
+fig_linechart = px.line(df, x="year", y="lifeExp", color='country', markers=True)
+# Update the configuration to enable lasso selection
+fig_linechart.update_layout(dragmode='select')
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Line Chart")
 with st.expander("Here is the code"):
@@ -376,7 +377,9 @@ import plotly.express as px
 
 # LINE CHART
 df = px.data.gapminder().query("continent=='Oceania'")
-fig_linechart = px.line(df, x="year", y="lifeExp", color='country')
+fig_linechart = px.line(df, x="year", y="lifeExp", color='country', markers=True)
+# Update the configuration to enable lasso selection
+fig_linechart.update_layout(dragmode='select')
 
 on_click = st.checkbox("On Click", key="oc_LineChart")
 on_select = st.checkbox("On Select", key="os_LineChart")
@@ -402,7 +405,7 @@ return_value = st.plotly_chart_widget(
 st.dataframe(return_value)
     """)
 on_click = st.checkbox("On Click", key="oc_LineChart")
-on_select = st.checkbox("On Select", key="os_LineChart")
+on_select = st.checkbox("On Select (Note: You need to enable markers and update the layout to select dragmode)", key="os_LineChart")
 on_hover = st.checkbox("On Hover", key="oh_LineChart")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_LineChart")
 
