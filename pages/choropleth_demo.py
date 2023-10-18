@@ -3,6 +3,7 @@ from urllib.request import urlopen
 import json
 import streamlit as st
 import plotly.express as px
+import pandas as pd
 
 @st.cache_data
 def load_json(url):
