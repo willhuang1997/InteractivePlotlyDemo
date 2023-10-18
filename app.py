@@ -21,34 +21,7 @@ import plotly.graph_objects as go
 
 import streamlit as st
 
-import requests
-import base64
 
-# Function to download file and convert it to a downloadable format
-def get_binary_file_downloader_html(bin_file, file_label='File'):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    bin_str = base64.b64encode(data).decode()
-    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{bin_file}">{file_label}</a>'
-    return href
-
-# URL of the file to be downloaded
-file_url = "https://github.com/willhuang1997/InteractivePlotlyDemo/raw/main/streamlit-1.27.2-py2.py3-none-any.whl"
-
-# Create Streamlit layout
-st.title("Interactive Plotly Streamlit Wheel File")
-st.write("Click the link below to download the wheel file:")
-
-# Fetching the file from the URL
-response = requests.get(file_url)
-filename = file_url.split("/")[-1]
-
-# Saving the file fetched from the URL
-with open(filename, "wb") as file:
-    file.write(response.content)
-
-# Creating the download link
-st.markdown(get_binary_file_downloader_html(filename, 'Click here to download'), unsafe_allow_html=True)
 
 # BUBBLE CHART
 df_bubble = px.data.gapminder()
@@ -62,8 +35,6 @@ fig_bubble = px.scatter(
     log_x=True,
     size_max=60,
 )
-
-st.header("Tip: when selecting or zooming / panning, Double click to reset")
 
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Bubble chart")
@@ -84,10 +55,14 @@ fig_bubble = px.scatter(
     log_x=True,
     size_max=60,
 )
+
 on_click = st.checkbox("On Click")
 on_select = st.checkbox("On Select")
 on_hover = st.checkbox("On Hover")
 on_relayout = st.checkbox("On Relayout")
+
+with st.expander("Original Data:"):
+    st.write(df_bubble.query("year==2007"))
 
 return_value = st.plotly_chart_widget(
     fig_bubble,
@@ -109,6 +84,9 @@ on_select = st.checkbox("On Select", key="os_Bubble")
 on_hover = st.checkbox("On Hover", key="oh_Bubble")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Bubble")
 
+with st.expander("Original Data:"):
+    st.write(df_bubble.query("year==2007"))
+
 return_value = st.plotly_chart_widget(
     fig_bubble,
     theme="streamlit",
@@ -125,29 +103,13 @@ return_value = st.plotly_chart_widget(
 st.dataframe(return_value)
 
 # CANDLESTICK CHART
-from datetime import datetime
-open_data_candlestick = [33.0, 33.3, 33.5, 33.0, 34.1]
-high_data_candlestick = [33.1, 33.3, 33.6, 33.2, 34.8]
-low_data_candlestick = [32.7, 32.7, 32.8, 32.6, 32.8]
-close_data_candlestick = [33.0, 32.9, 33.3, 33.1, 33.1]
-dates_candlestick = [
-    datetime(year=2013, month=10, day=10),
-    datetime(year=2013, month=11, day=10),
-    datetime(year=2013, month=12, day=10),
-    datetime(year=2014, month=1, day=10),
-    datetime(year=2014, month=2, day=10),
-]
-fig_candlestick = go.Figure(
-    data=[
-        go.Candlestick(
-            x=dates_candlestick,
-            open=open_data_candlestick,
-            high=high_data_candlestick,
-            low=low_data_candlestick,
-            close=close_data_candlestick,
-        )
-    ]
-)
+df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
+
+fig_candlestick = go.Figure(data=[go.Candlestick(x=df['Date'],
+                open=df['AAPL.Open'],
+                high=df['AAPL.High'],
+                low=df['AAPL.Low'],
+                close=df['AAPL.Close'])])
 
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Candlestick chart")
@@ -156,29 +118,21 @@ with st.expander("Here is the code"):
 import streamlit as st
 import plotly.express as px
 
-from datetime import datetime
-open_data_candlestick = [33.0, 33.3, 33.5, 33.0, 34.1]
-high_data_candlestick = [33.1, 33.3, 33.6, 33.2, 34.8]
-low_data_candlestick = [32.7, 32.7, 32.8, 32.6, 32.8]
-close_data_candlestick = [33.0, 32.9, 33.3, 33.1, 33.1]
-dates_candlestick = [
-    datetime(year=2013, month=10, day=10),
-    datetime(year=2013, month=11, day=10),
-    datetime(year=2013, month=12, day=10),
-    datetime(year=2014, month=1, day=10),
-    datetime(year=2014, month=2, day=10),
-]
-fig_candlestick = go.Figure(
-    data=[
-        go.Candlestick(
-            x=dates_candlestick,
-            open=open_data_candlestick,
-            high=high_data_candlestick,
-            low=low_data_candlestick,
-            close=close_data_candlestick,
-        )
-    ]
-)
+df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
+
+fig_candlestick = go.Figure(data=[go.Candlestick(x=df['Date'],
+                open=df['AAPL.Open'],
+                high=df['AAPL.High'],
+                low=df['AAPL.Low'],
+                close=df['AAPL.Close'])])
+
+on_click = st.checkbox("On Click", key="oc_Candlestick")
+on_select = st.checkbox("On Select", key="os_Candlestick")
+on_hover = st.checkbox("On Hover", key="oh_Candlestick")
+on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Candlestick")
+
+with st.expander("Original Data:"):
+    st.write(df)
 
 return_value = st.plotly_chart_widget(
     fig_candlestick,
@@ -195,10 +149,13 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
     """)
-on_click = st.checkbox("On Click", key="oc_Candlestick")
+on_click = st.checkbox("On Click ", key="oc_Candlestick")
 on_select = st.checkbox("On Select", key="os_Candlestick")
 on_hover = st.checkbox("On Hover", key="oh_Candlestick")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Candlestick")
+
+with st.expander("Original Data:"):
+    st.write(df)
 
 return_value = st.plotly_chart_widget(
     fig_candlestick,
@@ -215,39 +172,31 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
 
-import streamlit as st
-import plotly.graph_objects as go
-
 # BAR CHART
-months = ['January', 'February', 'March', 'April', 'May']
-sales = [200, 220, 250, 275, 300]
-fig_bar = go.Figure(
-    data=[
-        go.Bar(
-            x=months,
-            y=sales
-        )
-    ]
-)
+data_canada = px.data.gapminder().query("country == 'Canada'")
+fig_bar = px.bar(data_canada, x='year', y='pop')
 
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Bar chart")
 with st.expander("Here is the code"):
     st.code("""
 import streamlit as st
-import plotly.graph_objects as go
+import plotly.express as px
 
 # BAR CHART
-months = ['January', 'February', 'March', 'April', 'May']
-sales = [200, 220, 250, 275, 300]
-fig_bar = go.Figure(
-    data=[
-        go.Bar(
-            x=months,
-            y=sales
-        )
-    ]
-)
+data_canada = px.data.gapminder().query("country == 'Canada'")
+fig = px.bar(data_canada, x='year', y='pop')
+
+st.write("Original Data:")
+st.write(data_canada)
+
+on_click = st.checkbox("On Click", key="oc_Bar")
+on_select = st.checkbox("On Select", key="os_Bar")
+on_hover = st.checkbox("On Hover", key="oh_Bar")
+on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Bar")
+
+with st.expander("Original Data:"):
+    st.write(data_canada)
 
 return_value = st.plotly_chart_widget(
     fig_bar,
@@ -269,6 +218,9 @@ on_select = st.checkbox("On Select", key="os_Bar")
 on_hover = st.checkbox("On Hover", key="oh_Bar")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Bar")
 
+with st.expander("Original Data:"):
+    st.write(data_canada)
+
 # Assuming `st.plotly_chart_widget` is available in your environment. Otherwise, replace with `st.plotly_chart`.
 return_value = st.plotly_chart_widget(
     fig_bar,
@@ -285,43 +237,31 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
 
-import streamlit as st
-import plotly.graph_objects as go
-import numpy as np
-
 # Generate some data
-np.random.seed(42)  # For reproducibility
-x_data = np.linspace(0, 10, 100)
-y_data = x_data + np.random.normal(scale=3, size=100)
-
-# SCATTER PLOT
-fig_scatter = go.Figure(data=[go.Scatter(x=x_data, y=y_data, mode='markers')])
+df = px.data.iris() # iris is a pandas DataFrame
+fig_scatter = px.scatter(df, x="sepal_width", y="sepal_length")
 
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Scatter Plot")
 with st.expander("Here is the code"):
     st.code("""
 import streamlit as st
-import plotly.graph_objects as go
-import numpy as np
+import plotly.express as px
 
 # Generate some data
-np.random.seed(42)  # For reproducibility
-x_data = np.linspace(0, 10, 100)
-y_data = x_data + np.random.normal(scale=3, size=100)
-
-# SCATTER PLOT
-fig_scatter = go.Figure(data=[go.Scatter(x=x_data, y=y_data, mode='markers')])
+df = px.data.iris() # iris is a pandas DataFrame
+fig_scatter = px.scatter(df, x="sepal_width", y="sepal_length")
 
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Scatter Plot")
-with st.expander("Here is the code"):
-    # [CODE WILL BE HERE IN THE ACTUAL APP, OMITTING HERE FOR BREVITY]
 
 on_click = st.checkbox("On Click", key="oc_Scatter")
 on_select = st.checkbox("On Select", key="os_Scatter")
 on_hover = st.checkbox("On Hover", key="oh_Scatter")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Scatter")
+
+with st.expander("Original Data:"):
+    st.write(df)
 
 return_value = st.plotly_chart_widget(
     fig_scatter,
@@ -344,6 +284,9 @@ on_select = st.checkbox("On Select", key="os_Scatter")
 on_hover = st.checkbox("On Hover", key="oh_Scatter")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Scatter")
 
+with st.expander("Original Data:"):
+    st.write(df)
+
 return_value = st.plotly_chart_widget(
     fig_scatter,
     use_container_width=True,
@@ -359,32 +302,28 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
 
-import numpy as np
-import plotly.graph_objects as go
-import streamlit as st
-
 # HISTOGRAM CHART
-data_histogram = np.random.randn(10000)  # Larger dataset
-
-fig_histogram = go.Figure(data=[go.Histogram(x=data_histogram)])
+df = px.data.tips()
+fig_histogram = px.histogram(df, x="day", category_orders=dict(day=["Thur", "Fri", "Sat", "Sun"]))
 
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Histogram chart")
 with st.expander("Here is the code"):
     st.code("""
 import numpy as np
-import plotly.graph_objects as go
-import streamlit as st
+import plotly.express as px
 
-# HISTOGRAM CHART
-data_histogram = np.random.randn(10000)  # Generating large dataset
-
-fig_histogram = go.Figure(data=[go.Histogram(x=data_histogram)])
+df = px.data.tips()
+fig_histogram = px.histogram(df, x="day", category_orders=dict(day=["Thur", "Fri", "Sat", "Sun"]))
 
 on_click = st.checkbox("On Click", key="oc_Histogram")
 on_select = st.checkbox("On Select", key="os_Histogram")
 on_hover = st.checkbox("On Hover", key="oh_Histogram")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Histogram")
+
+with st.expander("Original Data:"):
+    st.write(df)
+
 return_value = st.plotly_chart_widget(
     fig_histogram,
     theme="streamlit",
@@ -405,6 +344,9 @@ on_select = st.checkbox("On Select", key="os_Histogram")
 on_hover = st.checkbox("On Hover", key="oh_Histogram")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Histogram")
 
+with st.expander("Original Data:"):
+    st.write(df)
+
 return_value = st.plotly_chart_widget(
     fig_histogram,
     theme="streamlit",
@@ -420,38 +362,30 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
 
-import streamlit as st
-import plotly.graph_objects as go
-import numpy as np
-from datetime import datetime, timedelta
 
-# GENERATING LARGER DATASET FOR LINE CHART
-np.random.seed(0)  # for reproducibility
-dates_linechart = [datetime(2013, 1, 1) + timedelta(days=i) for i in range(1000)]
-data_linechart = np.cumsum(np.random.randn(1000))  # Generating random walk data
-
-fig_linechart = go.Figure(data=[go.Scatter(x=dates_linechart, y=data_linechart, mode='lines+markers')])
+# LINE CHART
+df = px.data.gapminder().query("continent=='Oceania'")
+fig_linechart = px.line(df, x="year", y="lifeExp", color='country')
 
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Line Chart")
 with st.expander("Here is the code"):
     st.code("""
 import streamlit as st
-import plotly.graph_objects as go
-import numpy as np
-from datetime import datetime, timedelta
+import plotly.express as px
 
 # LINE CHART
-np.random.seed(0)
-dates_linechart = [datetime(2013, 1, 1) + timedelta(days=i) for i in range(1000)]
-data_linechart = np.cumsum(np.random.randn(1000))  # Generating random walk data
-
-fig_linechart = go.Figure(data=[go.Scatter(x=dates_linechart, y=data_linechart)])
+df = px.data.gapminder().query("continent=='Oceania'")
+fig_linechart = px.line(df, x="year", y="lifeExp", color='country')
 
 on_click = st.checkbox("On Click", key="oc_LineChart")
 on_select = st.checkbox("On Select", key="os_LineChart")
 on_hover = st.checkbox("On Hover", key="oh_LineChart")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_LineChart")
+
+with st.expander("Original Data:"):
+    st.write(df)
+
 return_value = st.plotly_chart_widget(
     fig_linechart,
     theme="streamlit",
@@ -472,6 +406,9 @@ on_select = st.checkbox("On Select", key="os_LineChart")
 on_hover = st.checkbox("On Hover", key="oh_LineChart")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_LineChart")
 
+with st.expander("Original Data:"):
+    st.write(df)
+
 return_value = st.plotly_chart_widget(
     fig_linechart,
     theme="streamlit",
@@ -487,6 +424,102 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
 
+# from urllib.request import urlopen
+# import json
+# @st.cache_data
+# def load_json(url):
+#     with urlopen(url) as response:
+#         counties = json.load(response)
+#         return counties
+
+# @st.cache_data  # 👈 Add the caching decorator
+# def load_data(url):
+#     df = pd.read_csv(url, dtype={"fips": str})
+#     return df
+
+# df = load_data("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv")
+# counties = load_json("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json")
+# fig = px.choropleth_mapbox(df, geojson=counties, locations='fips', color='unemp',
+#         color_continuous_scale="Viridis",
+#         range_color=(0, 12),
+#         mapbox_style="carto-positron",
+#         zoom=3, center = {"lat": 37.0902, "lon": -95.7129},
+#         opacity=0.5,
+#         labels={'unemp':'unemployment rate'}
+#         )
+# fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+
+# # UI: Checkboxes to select events
+# st.header("Event Selectors for a Choropleth Map. Warning: This can be a little slow!")
+# with st.expander("Here is the code"):
+#     st.code("""
+# import streamlit as st
+# import plotly.express as px
+# from urllib.request import urlopen
+# import json
+
+# @st.cache_data
+# def load_json(url):
+#     with urlopen(url) as response:
+#         counties = json.load(response)
+#         return counties
+
+# @st.cache_data  # 👈 Add the caching decorator
+# def load_data(url):
+#     df = pd.read_csv(url, dtype={"fips": str})
+#     return df
+
+# df = load_data("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv")
+# counties = load_json("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json")
+# fig = px.choropleth_mapbox(df, geojson=counties, locations='fips', color='unemp',
+#         color_continuous_scale="Viridis",
+#         range_color=(0, 12),
+#         mapbox_style="carto-positron",
+#         zoom=3, center = {"lat": 37.0902, "lon": -95.7129},
+#         opacity=0.5,
+#         labels={'unemp':'unemployment rate'}
+#         )
+# fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+
+# on_click = st.checkbox("On Click", key="oc_Choropleth")
+# on_select = st.checkbox("On Select", key="os_Choropleth")
+# on_hover = st.checkbox("On Hover", key="oh_Choropleth")
+# on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Choropleth")
+
+# return_value = st.plotly_chart_widget(
+#     fig,
+#     theme="streamlit",
+#     # Event Selector enabling is here
+#     on_click=on_click,
+#     on_select=on_select,
+#     on_hover=on_hover,
+#     on_relayout=on_relayout,
+#     # END Event Selector enabling is here
+#     key="Choropleth_chart",
+# )
+
+# st.dataframe(return_value)
+#     """)
+# on_click = st.checkbox("On Click", key="oc_Choropleth")
+# on_select = st.checkbox("On Select", key="os_Choropleth")
+# on_hover = st.checkbox("On Hover", key="oh_Choropleth")
+# on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Choropleth")
+
+# return_value = st.plotly_chart_widget(
+#     fig,
+#     theme="streamlit",
+#     # Event Selector enabling is here
+#     on_click=on_click,
+#     on_select=on_select,
+#     on_hover=on_hover,
+#     on_relayout=on_relayout,
+#     # END Event Selector enabling is here
+#     key="Choropleth_chart",
+# )
+
+# st.dataframe(return_value)
+
+# STACKED BAR CHART
 wide_df = px.data.medals_wide()
 
 fig = px.bar(wide_df, x="nation", y=["gold", "silver", "bronze"], title="Wide-Form Input")
@@ -504,6 +537,9 @@ on_click = st.checkbox("On Click", key="oc_StackedBar")
 on_select = st.checkbox("On Select", key="os_StackedBar")
 on_hover = st.checkbox("On Hover", key="oh_StackedBar")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_StackedBar")
+
+with st.expander("Original Data:"):
+    st.write(wide_df)
 
 return_value = st.plotly_chart_widget(
     fig,
@@ -523,6 +559,9 @@ on_click = st.checkbox("On Click", key="oc_StackedBar")
 on_select = st.checkbox("On Select", key="os_StackedBar")
 on_hover = st.checkbox("On Hover", key="oh_StackedBar")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_StackedBar")
+
+with st.expander("Original Data:"):
+    st.write(wide_df)
 
 return_value = st.plotly_chart_widget(
     fig,
