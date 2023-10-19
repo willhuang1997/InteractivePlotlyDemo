@@ -24,6 +24,12 @@ import streamlit as st
 import requests
 import base64
 
+st.set_page_config(
+    page_title="Interactive Plotly Demo",
+    page_icon="📈",
+    layout="wide",
+)
+
 # Function to download file and convert it to a downloadable format
 def get_binary_file_downloader_html(bin_file, file_label='File'):
     with open(bin_file, 'rb') as f:
