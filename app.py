@@ -615,3 +615,31 @@ return_value = st.plotly_chart_widget(
 )
 
 st.dataframe(return_value)
+
+st.header("Here is an interactive App created by Maggie Liu!!! ❤️")
+# whatif i select multiple ones eg. onclick & on select at the same time
+#add an example of a time series event
+error_df = pd.read_csv("error_interactive_charts_2.csv")
+
+chart_df = error_df.groupby(['TO_DATE(_CREATED)', 'EVENT_ID'])._ID.count().reset_index()
+
+chart_df.rename(columns={'TO_DATE(_CREATED)':'record_date', 'EVENT_ID':'event_id', '_ID':'num_events'}, inplace=True)
+st.write(chart_df.head())
+fig_timeseries = px.line(chart_df, x="record_date", y="num_events", color='event_id', markers=True)
+
+return_value = st.plotly_chart_widget(
+    fig_timeseries,
+    theme="streamlit",
+    # Event Selector enabling is here
+    on_click=True,
+    # END Event Selector enabling is here
+    key="TimeSeriesChart_Maggie",
+)
+
+st.write(return_value)
+if return_value:
+    error_cnt_df = error_df[(error_df['EVENT_ID'] == return_value[0]['legendgroup']) & (error_df['TO_DATE(_CREATED)'] == return_value[0]['x'])]
+    error_message_df = error_cnt_df.groupby(['ERROR'])._ID.count().reset_index()
+    st.write(error_message_df)
+    fig_cnt_bar = px.bar(error_message_df, x="_ID", y="ERROR", orientation='h')
+    st.plotly_chart(fig_cnt_bar, use_container_width=True)
