@@ -21,43 +21,17 @@ import plotly.graph_objects as go
 
 import streamlit as st
 
-import requests
-import base64
-
 st.set_page_config(
     page_title="Interactive Plotly Demo",
     page_icon="📈",
 )
-
-# Function to download file and convert it to a downloadable format
-def get_binary_file_downloader_html(bin_file, file_label='File'):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    bin_str = base64.b64encode(data).decode()
-    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{bin_file}">{file_label}</a>'
-    return href
-
-# URL of the file to be downloaded
-file_url = "https://github.com/willhuang1997/InteractivePlotlyDemo/raw/main/streamlit-1.27.2-py2.py3-none-any.whl"
-
-# Create Streamlit layout
-st.title("Interactive Plotly Streamlit Wheel File")
-st.write("Click the link below to download the wheel file:")
-
-# Fetching the file from the URL
-response = requests.get(file_url)
-filename = file_url.split("/")[-1]
-
-# Saving the file fetched from the URL
-with open(filename, "wb") as file:
-    file.write(response.content)
-
-# Creating the download link
-st.markdown(get_binary_file_downloader_html(filename, 'Click here to download'), unsafe_allow_html=True)
+st.title("📈 Interactive Plotly Streamlit Demo")
 
 st.subheader("Tip 1: when selecting or zooming / panning, Double click to reset")
 st.subheader("Tip 2: When selecting (lasso or box), shift to do another selection and not get rid of ur current selection!")
 st.subheader("Tip 3: When clicking, shift to do another selection!")
+
+st.markdown("[Download link for the streamlit wheel file](https://github.com/willhuang1997/InteractivePlotlyDemo/raw/main/streamlit-1.27.2-py2.py3-none-any.whl)")
 
 # BUBBLE CHART
 df_bubble = px.data.gapminder()
@@ -488,7 +462,7 @@ st.dataframe(return_value)
 #         )
 # fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
-# # UI: Checkboxes to select events
+# UI: Checkboxes to select events
 # st.header("Event Selectors for a Choropleth Map. Warning: This can be a little slow!")
 # with st.expander("Here is the code"):
 #     st.code("""
