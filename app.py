@@ -55,9 +55,9 @@ with open(filename, "wb") as file:
 # Creating the download link
 st.markdown(get_binary_file_downloader_html(filename, 'Click here to download'), unsafe_allow_html=True)
 
-st.title("Tip 1: when selecting or zooming / panning, Double click to reset")
-st.title("Tip 2: When selecting (lasso or box), shift to do another selection and not get rid of ur current selection!")
-st.title("Tip 3: When clicking, shift to do another selection!")
+st.subheader("Tip 1: when selecting or zooming / panning, Double click to reset")
+st.subheader("Tip 2: When selecting (lasso or box), shift to do another selection and not get rid of ur current selection!")
+st.subheader("Tip 3: When clicking, shift to do another selection!")
 
 # BUBBLE CHART
 df_bubble = px.data.gapminder()
