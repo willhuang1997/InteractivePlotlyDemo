@@ -27,7 +27,6 @@ import base64
 st.set_page_config(
     page_title="Interactive Plotly Demo",
     page_icon="📈",
-    layout="wide",
 )
 
 # Function to download file and convert it to a downloadable format
@@ -56,8 +55,9 @@ with open(filename, "wb") as file:
 # Creating the download link
 st.markdown(get_binary_file_downloader_html(filename, 'Click here to download'), unsafe_allow_html=True)
 
-st.header("Tip 1: when selecting or zooming / panning, Double click to reset")
-st.header("Tip 2: When selecting (lasso or box), shift to do another selection and not get rid of ur current selection!")
+st.title("Tip 1: when selecting or zooming / panning, Double click to reset")
+st.title("Tip 2: When selecting (lasso or box), shift to do another selection and not get rid of ur current selection!")
+st.title("Tip 3: When clicking, shift to do another selection!")
 
 # BUBBLE CHART
 df_bubble = px.data.gapminder()
@@ -92,8 +92,8 @@ fig_bubble = px.scatter(
     size_max=60,
 )
 
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Bubble")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Bubble")
+on_click = st.checkbox("On Click", key="oc_Bubble")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Bubble")
 on_hover = st.checkbox("On Hover", key="oh_Bubble")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Bubble")
 
@@ -115,8 +115,8 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
     """)
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Bubble")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Bubble")
+on_click = st.checkbox("On Click", key="oc_Bubble")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Bubble")
 on_hover = st.checkbox("On Hover", key="oh_Bubble")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Bubble")
 
@@ -162,8 +162,8 @@ fig_candlestick = go.Figure(data=[go.Candlestick(x=df['Date'],
                 low=df['AAPL.Low'],
                 close=df['AAPL.Close'])])
 
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Candlestick")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Candlestick")
+on_click = st.checkbox("On Click", key="oc_Candlestick")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Candlestick")
 on_hover = st.checkbox("On Hover", key="oh_Candlestick")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Candlestick")
 
@@ -185,8 +185,8 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
     """)
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Candlestick")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Candlestick")
+on_click = st.checkbox("On Click", key="oc_Candlestick")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Candlestick")
 on_hover = st.checkbox("On Hover", key="oh_Candlestick")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Candlestick")
 
@@ -226,8 +226,8 @@ fig = px.bar(data_canada, x='year', y='pop')
 st.write("Original Data:")
 st.write(data_canada)
 
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Bar")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Bar")
+on_click = st.checkbox("On Click", key="oc_Bar")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Bar")
 on_hover = st.checkbox("On Hover", key="oh_Bar")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Bar")
 
@@ -249,8 +249,8 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
     """)
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Bar")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Bar")
+on_click = st.checkbox("On Click", key="oc_Bar")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Bar")
 on_hover = st.checkbox("On Hover", key="oh_Bar")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Bar")
 
@@ -291,8 +291,8 @@ fig_scatter = px.scatter(df, x="sepal_width", y="sepal_length")
 # UI: Checkboxes to select events
 st.header("Event Selectors for a Scatter Plot")
 
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Scatter")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Scatter")
+on_click = st.checkbox("On Click", key="oc_Scatter")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Scatter")
 on_hover = st.checkbox("On Hover", key="oh_Scatter")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Scatter")
 
@@ -315,8 +315,8 @@ return_value = st.plotly_chart_widget(
 st.dataframe(return_value)
     """)
 
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Scatter")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Scatter")
+on_click = st.checkbox("On Click", key="oc_Scatter")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Scatter")
 on_hover = st.checkbox("On Hover", key="oh_Scatter")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Scatter")
 
@@ -352,8 +352,8 @@ import plotly.express as px
 df = px.data.tips()
 fig_histogram = px.histogram(df, x="day", category_orders=dict(day=["Thur", "Fri", "Sat", "Sun"]))
 
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Histogram")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Histogram")
+on_click = st.checkbox("On Click", key="oc_Histogram")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Histogram")
 on_hover = st.checkbox("On Hover", key="oh_Histogram")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Histogram")
 
@@ -375,8 +375,8 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
     """)
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_Histogram")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_Histogram")
+on_click = st.checkbox("On Click", key="oc_Histogram")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_Histogram")
 on_hover = st.checkbox("On Hover", key="oh_Histogram")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_Histogram")
 
@@ -417,8 +417,8 @@ fig_linechart = px.line(df, x="year", y="lifeExp", color='country', markers=True
 # Update the configuration to enable lasso selection
 fig_linechart.update_layout(dragmode='select')
 
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_LineChart")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_LineChart")
+on_click = st.checkbox("On Click", key="oc_LineChart")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_LineChart")
 on_hover = st.checkbox("On Hover", key="oh_LineChart")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_LineChart")
 
@@ -440,8 +440,8 @@ return_value = st.plotly_chart_widget(
 # Optionally display return values
 st.dataframe(return_value)
     """)
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_LineChart")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_LineChart")
+on_click = st.checkbox("On Click", key="oc_LineChart")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_LineChart")
 on_hover = st.checkbox("On Hover", key="oh_LineChart")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_LineChart")
 
@@ -572,8 +572,8 @@ wide_df = px.data.medals_wide()
 
 fig = px.bar(wide_df, x="nation", y=["gold", "silver", "bronze"], title="Wide-Form Input")
 
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_StackedBar")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_StackedBar")
+on_click = st.checkbox("On Click", key="oc_StackedBar")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_StackedBar")
 on_hover = st.checkbox("On Hover", key="oh_StackedBar")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_StackedBar")
 
@@ -594,8 +594,8 @@ return_value = st.plotly_chart_widget(
 
 st.dataframe(return_value)
     """)
-on_click = st.checkbox("On Click (Select up to 1 point)", key="oc_StackedBar")
-on_select = st.checkbox("On Select (Select more than 0 points through lasso or box button)", key="os_StackedBar")
+on_click = st.checkbox("On Click", key="oc_StackedBar")
+on_select = st.checkbox("On Select (through lasso or box button)", key="os_StackedBar")
 on_hover = st.checkbox("On Hover", key="oh_StackedBar")
 on_relayout = st.checkbox("On Relayout (AKA zoom or pan)", key="or_StackedBar")
 
